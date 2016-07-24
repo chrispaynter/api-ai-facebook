@@ -34,8 +34,8 @@ function processEvent(event) {
                 contexts: [{
                     name: "client-user",
                     parameters: {
-                        "id": sender,
-                        "client": "facebook" 
+                        "client-user.client": "facebook",
+                        "client-user.user": sender
                     },
                     // Not yet sure the implications of having such a large lifespan on this.
                     // Only way to find out is to do it :D
