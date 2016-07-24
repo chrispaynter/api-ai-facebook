@@ -28,14 +28,20 @@ function processEvent(event) {
             sessionIds.set(sender, uuid.v1());
         }
 
-        console.log("Text", text);
-
         let apiaiRequest = apiAiService.textRequest(text,
             {
-                sessionId: sessionIds.get(sender)
+                sessionId: sessionIds.get(sender),
+                contexts: [{
+                    name: "facebook-user",
+                    parameters: {
+                        "id": sender
+                    }
+
+                }]
             });
 
         apiaiRequest.on('response', (response) => {
+            console.log("RESPONSE", response.result.contexts);
             if (isDefined(response.result)) {
                 let responseText = response.result.fulfillment.speech;
                 let responseData = response.result.fulfillment.data;
@@ -210,6 +216,8 @@ app.get('/webhook/', (req, res) => {
 app.post('/webhook/', (req, res) => {
     try {
         var data = JSONbig.parse(req.body);
+
+        console.log("Data", data);
 
         if (data.entry) {
             let entries = data.entry;
