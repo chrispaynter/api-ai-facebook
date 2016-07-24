@@ -32,11 +32,14 @@ function processEvent(event) {
             {
                 sessionId: sessionIds.get(sender),
                 contexts: [{
-                    name: "facebook-user",
+                    name: "client-user",
                     parameters: {
-                        "id": sender
-                    }
-
+                        "id": sender,
+                        "client": "facebook" 
+                    },
+                    // Not yet sure the implications of having such a large lifespan on this.
+                    // Only way to find out is to do it :D
+                    lifespan: 1000 
                 }]
             });
 
