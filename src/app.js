@@ -79,11 +79,11 @@ function processEvent(event) {
                     // facebook API limit for text length is 320,
                     // so we must split message if needed
 
-                    var splitMessages = responseText.split('{{break}}');
+                    var splitMessages = responseText.split('[[b]]');
 
 
                     async.eachSeries(splitMessages, (message, callback) => {
-                        
+
                         var splittedText = splitResponse(responseText);
 
                         async.eachSeries(splittedText, (textPart, callback) => {
