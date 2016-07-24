@@ -78,11 +78,20 @@ function processEvent(event) {
                     console.log('Response as text message');
                     // facebook API limit for text length is 320,
                     // so we must split message if needed
-                    var splittedText = splitResponse(responseText);
 
-                    async.eachSeries(splittedText, (textPart, callback) => {
-                        sendFBMessage(sender, {text: textPart}, callback);
+                    var splitMessages = responseText.split('{{break}}');
+
+
+                    async.eachSeries(splitMessages, (message, callback) => {
+                        
+                        var splittedText = splitResponse(responseText);
+
+                        async.eachSeries(splittedText, (textPart, callback) => {
+                            sendFBMessage(sender, {text: textPart}, callback);
+                        });
                     });
+
+                    
                 }
 
             }
@@ -91,6 +100,10 @@ function processEvent(event) {
         apiaiRequest.on('error', (error) => console.error(error));
         apiaiRequest.end();
     }
+}
+
+function splitMessageBreaks(str) {
+
 }
 
 function splitResponse(str) {
